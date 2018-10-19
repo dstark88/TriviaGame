@@ -82,7 +82,12 @@ function decrement() {
         stop(); //when hits 0 stop
         console.log('times up');
         losses++;
-        timesUpMessage();
+        $(".losses").text(losses);
+        // timesUpMessage();
+        $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/TCDHJPxeWgTsY/giphy.gif"}));
+        setTimeout(function(timesUpMessage) {
+        }, 3000);
+        currentQuestion++;
     }
 }
 function stop() { //run the stop function and clear the interval
@@ -110,8 +115,6 @@ function loadQuestion (questionIndex) {
     opt4.textContent = q.opt4;
     //reset timer once an object is clicked
     run();
-    //go to the next question after the object is clicked
-    currentQuestion++;
 };
 
 $(".option").on("click", function() {
@@ -120,36 +123,59 @@ $(".option").on("click", function() {
     console.log(answer); //answer is being defined
     
     if (questions[currentQuestion].answer == answer) {
-        correctMessage();
-    } else {
-        wrongMessage();
+        wins++;
+        $(".wins").text(wins);
+        // correctMessage(); 
+        currentQuestion++; //go to the next question after the object is clicked
+    } else if (questions[currentQuestion].answer !== answer) {
+        losses++;
+        $(".losses").text(losses);
+        // wrongMessage();
+        $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/l0HlTtfLvP6HfLvH2/giphy.gif"}));
+        setTimeout(function(wrongMessage) {
+        }, 3000);
+        currentQuestion++;
+    }
+
+    //stops allowing clicks after the questions are over. Will delete
+    selectedOption.checked = false;
+
+    // show results after last question
+    if (currentQuestion == totQuestions) {
+        container.style.display = "none";
+        return;
     }
 loadQuestion(currentQuestion) 
 })
 
-function correctMessage(){
-    console.log("correct message");
+// function correctMessage(){
+//     console.log("correct message");
+
     // $(".video").append($("<img>").attr(videos[questionIndex]));
     // setTimeout(function() {
     //     loadNextQuestion(currentQuestion);
     // }, 3000);
-}
+// }
 
-function wrongMessage() {
-    console.log("wrong message");
-    $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/l0HlTtfLvP6HfLvH2/giphy.gif"}));
-    setTimeout(function(wrongMessage) {
-    }, 3000);
+// function wrongMessage() {
+//     console.log("wrong message");
+    // losses++;
+    // $(".losses").text(losses);
+    // $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/l0HlTtfLvP6HfLvH2/giphy.gif"}));
+    // setTimeout(function(wrongMessage) {
+    // }, 3000);
     // loadQuestion();
-}
+// }
 
-function timesUpMessage() {
-    console.log("times up");
-    $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/TCDHJPxeWgTsY/giphy.gif"}));
-    setTimeout(function(timesUpMessage) {
-    }, 3000);
+// function timesUpMessage() {
+//     console.log("times up");
+    // losses++;
+    // $(".losses").text(losses);
+    // $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/TCDHJPxeWgTsY/giphy.gif"}));
+    // setTimeout(function(timesUpMessage) {
+    // }, 3000);
     // loadQuestion();
-}
+// }
 
 //TODO: correct or incorrect page needed
 
