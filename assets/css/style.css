@@ -106,9 +106,19 @@ nav a:first-child {
     color: #ffffff;
 }
 
-.video {
-    position: relative;
+.video.hidden { 
+   width: 50%;
+   
+    /* Full height */
+    height: 25%;
+    display: none; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+
 
 h2 {
     padding-bottom: 10px;

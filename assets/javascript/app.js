@@ -6,15 +6,13 @@ var questions = [{
         "opt3":"While combing the desert",
         "opt4":"On Uranus",
             "answer":"2",
-            // "message": url
 }, {
     "question":"Princess Vespa can't live without what??",
         "opt1":"Industrial Strength Hair Dryer",
         "opt2":"Her Dot Matrix",
         "opt3":"Her Father King Roland",
         "opt4":"Yogurt",
-            "answer":"1",
-                // "message":"url, https://youtu.be/0f5y1w7sZ0s"  
+            "answer":"1",  
 }, {
     "question":"How are Dark Helmet and Lone Starr related?",
         "opt1":"Father's Brother",
@@ -30,15 +28,12 @@ var questions = [{
         "opt4":"4-4-4-4",
             "answer":"3",  
 }]
-var videos = [{
-    "video": 'src="https://i.makeagif.com/media/10-18-2018/DkJ7IP.mp4"',
-}, {
-    "video": 'src="https://youtu.be/0f5y1w7sZ0s"',
-}, {
-    "video": 'src="https://i.makeagif.com/media/10-18-2018/-cQXJS.mp4"',
-}, {
-    "video": 'src="https://i.makeagif.com/media/10-18-2018/SnKrtE.gif"',
-}]
+var videos = [
+    "https://i.makeagif.com/media/10-21-2018/x-LY3s.gif",
+    "https://i.makeagif.com/media/10-21-2018/A6ql2M.gif",
+    "https://i.makeagif.com/media/10-21-2018/p8cZeE.gif",
+    "https://i.makeagif.com/media/10-21-2018/1mDuJF.gif",
+]
 
 var currentQuestion = 0;
 var score = 0;
@@ -47,6 +42,7 @@ var totQuestions = questions.length;
 //printing on page
 var container = document.getElementById("quizContainer");
 var question = document.getElementById("question");
+var video = document.getElementsByClassName("video");
 var opt1 = document.getElementById("opt1");
 var opt2 = document.getElementById("opt2");
 var opt3 = document.getElementById("opt3");
@@ -54,17 +50,19 @@ var opt4 = document.getElementById("opt4");
 var wins = document.getElementsByClassName("wins");
 var losses = document.getElementsByClassName("losses");
 var startButton = document.getElementById("startButton");
-var nextButton = document.getElementById("nextButton");
 var score = document.getElementsByClassName("scoreBoard");
 var message = document.getElementsByClassName("message");
 var answer = "";
 var questionIndex = [0];
+var videoIndex = [0];
+var currentVideo = 0;
 var q = questions[questionIndex];
+var v = videos[videoIndex];
 wins = 0;
 losses = 0;
 
 //create a timer to start 30 seconds
-var timeleft = 30;
+var timeleft = 20;
 var intervalId;
 // when start timer gets clicked
 // $("#startButton").on("click", run);
@@ -73,7 +71,7 @@ var intervalId;
 function run() { //starting the timer
     clearInterval(intervalId); //clearing the interval
     intervalId = setInterval(decrement, 1000);
-    timeleft = 11; 
+    timeleft = 20; 
 }
 function decrement() {
     timeleft--; //counting down
@@ -84,10 +82,20 @@ function decrement() {
         losses++;
         $(".losses").text(losses);
         // timesUpMessage();
-        $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/TCDHJPxeWgTsY/giphy.gif"}));
-        setTimeout(function(timesUpMessage) {
-        }, 3000);
+        $(".video").html($("<img>").attr({"src":"https://media.giphy.com/media/E84LEJ7e0SrYY/giphy.gif"}));
+        setTimeout(function() { 
+            $(".video").html($("<img>").attr({"src":""}));
+            if (currentQuestion !== questions.length) {
+                loadQuestion(currentQuestion);   
+            } else if (currentQuestion == totQuestions) {
+                container.style.display = "none";
+                return;
+            }
+        }, 4000);
+
+        
         currentQuestion++;
+        console.log(currentQuestion, "decrement");
     }
 }
 function stop() { //run the stop function and clear the interval
@@ -118,34 +126,47 @@ function loadQuestion (questionIndex) {
 };
 
 $(".option").on("click", function() {
+    stop();
+    setTimeout(function() { 
+        $(".video").html($("<img>").attr({"src":""}));
+        if (currentQuestion !== questions.length) {
+            loadQuestion(currentQuestion);
+        }
+    }, 10000);
     var selectedOption = document.querySelector("input[type=radio]:checked");
     answer = selectedOption.value;
     console.log(answer); //answer is being defined
     
     if (questions[currentQuestion].answer == answer) {
+        $(".video").html($("<img>").attr("src", videos[currentQuestion]));
+        console.log("videos", videos[currentQuestion]);
         wins++;
         $(".wins").text(wins);
-        // correctMessage(); 
-        currentQuestion++; //go to the next question after the object is clicked
+        
+        // currentVideo++; 
+        //go to the next question after the object is clicked
     } else if (questions[currentQuestion].answer !== answer) {
+        $(".video").html($("<img>").attr({"src":"https://media.giphy.com/media/l0HlTtfLvP6HfLvH2/giphy.gif"}));      
         losses++;
         $(".losses").text(losses);
-        // wrongMessage();
-        $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/l0HlTtfLvP6HfLvH2/giphy.gif"}));
-        setTimeout(function(wrongMessage) {
-        }, 3000);
-        currentQuestion++;
-    }
+    } 
 
+    currentQuestion++;
+    console.log(currentQuestion, "onclick");
     //stops allowing clicks after the questions are over. Will delete
     selectedOption.checked = false;
 
     // show results after last question
+
     if (currentQuestion == totQuestions) {
-        container.style.display = "none";
-        return;
+        setTimeout(function() {
+            container.style.display = "none";
+            return;
+        }, 10000);  
     }
-loadQuestion(currentQuestion) 
+    
+// loadQuestion(currentQuestion) 
+
 })
 
 // function correctMessage(){
@@ -176,48 +197,3 @@ loadQuestion(currentQuestion)
     // }, 3000);
     // loadQuestion();
 // }
-
-//TODO: correct or incorrect page needed
-
-// //loading the next question and answers after the last one was answered
-// function loadNextQuestion () {
-//     console.log("loadNextQuestion");
-//     //verifying the checked radio button to the number in the array
-//     var selectedOption = document.querySelector("input[type=radio]:checked");
-//     answer = selectedOption.value;
-//     //if right add one to the score, compare the answer with the array
-//     if (questions[currentQuestion].answer == answer) {
-//         console.log("questionRight:",wins);
-//         wins++;
-//         $(".wins").text(wins);
-//         console.log(answer);
-
-
-//     } else if (questions[currentQuestion].answer !== answer) {
-//         console.log("questionWrong:",losses); 
-//         losses++;
-//         $(".losses").text(losses);
-//         wrongMessage();
-
-//     } else if (timeleft <= 0) {
-//         console.log("timeup:",losses);
-//         losses++;
-//         $(".losses").text(losses);
-//         timesUpMessage();
-
-//     } 
-
-//     //stops allowing clicks after the questions are over. Will delete
-//     selectedOption.checked = false;
-//     currentQuestion++;
-
-//     // show results after last question
-//     if (currentQuestion == totQuestions) {
-//         container.style.display = "none";
-//         return;
-//     }
-// }
-    // loadQuestion(currentQuestion);
-
-// loadQuestion();
-
