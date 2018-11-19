@@ -164,36 +164,4 @@ $(".option").on("click", function() {
             return;
         }, 10000);  
     }
-    
-// loadQuestion(currentQuestion) 
-
 })
-
-// function correctMessage(){
-//     console.log("correct message");
-
-    // $(".video").append($("<img>").attr(videos[questionIndex]));
-    // setTimeout(function() {
-    //     loadNextQuestion(currentQuestion);
-    // }, 3000);
-// }
-
-// function wrongMessage() {
-//     console.log("wrong message");
-    // losses++;
-    // $(".losses").text(losses);
-    // $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/l0HlTtfLvP6HfLvH2/giphy.gif"}));
-    // setTimeout(function(wrongMessage) {
-    // }, 3000);
-    // loadQuestion();
-// }
-
-// function timesUpMessage() {
-//     console.log("times up");
-    // losses++;
-    // $(".losses").text(losses);
-    // $(".video").append($("<img>").attr({"src":"https://media.giphy.com/media/TCDHJPxeWgTsY/giphy.gif"}));
-    // setTimeout(function(timesUpMessage) {
-    // }, 3000);
-    // loadQuestion();
-// }
